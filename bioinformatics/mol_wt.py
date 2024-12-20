@@ -41,4 +41,5 @@ with st.expander("Input"):
     st.write(f"Title: {title}")
     st.code(aa_sequence)
 
-st.metric("Molecular Weight", value = "{:.2f}".format(molecular_weight))
+if len(aa_sequence) > 0:
+    st.metric("Molecular Weight", value = "{:.2f}".format(molecular_weight))

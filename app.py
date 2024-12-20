@@ -1,14 +1,18 @@
 import streamlit as st
-import home, page1, page2
 from bioinformatics import translate
 
-pg = st.navigation([st.Page("home.py"),
-                    st.Page("page1.py"), 
-                    st.Page("page2.py"), 
-                    st.Page("bioinformatics/translate.py"), 
-                    st.Page("bioinformatics/mol_wt.py"), 
-                    st.Page("bioinformatics/fragment_wts.py"), 
-                    ])
+pages = {
+    "Bioinformatics":[
+        st.Page("bioinformatics/translate.py", title="DNA Translate"), 
+        st.Page("bioinformatics/codon_usage.py", title="Calculate Codon Usage"), 
+        st.Page("bioinformatics/mol_wt.py", title="Calculate Protein Molecular Weight"),
+        st.Page("bioinformatics/fragment_wts.py", title="Id fragments with molecular weight"),            
+    ],
+    "Utilities":[
+        st.Page("Utilities/converter.py")
+    ]
+}
+pg = st.navigation(pages)
 # Run the app
 pg.run()
 

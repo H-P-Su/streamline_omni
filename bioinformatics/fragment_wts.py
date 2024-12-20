@@ -12,14 +12,14 @@ if "target_wt" not in st.session_state.keys():
 if "adjust_wt" not in st.session_state.keys():
     st.session_state.adjust_wt = 0
 if "delta" not in st.session_state.keys():
-    st.session_state.delta = 10
+    st.session_state.delta = 20
 
 # funciton for reset button
 def reset_values():
     st.session_state.sequence = ""  
     st.session_state.target_wt = 0
     st.session_state.adjust_wt = 0
-    st.session_state.delta = 10
+    st.session_state.delta = 20
 
 # function for submit button
 def set_values(aa_sequence, target_wt, adjust_wt, delta_wt):
@@ -28,7 +28,7 @@ def set_values(aa_sequence, target_wt, adjust_wt, delta_wt):
     st.session_state.adjust_wt = adjust_wt
     st.session_state.delta = delta_wt
 
-st.write(st.session_state)
+# st.write(st.session_state)
 
 aa_sequence=st.text_area("Protein sequence", key="sequence", value=st.session_state.sequence) 
 
@@ -100,8 +100,24 @@ def filter_fragments(aa_sequence, state_dictionary):
     except:
         return None
 
+def format_text(sequence, block_length=10, line_length=50):
+    formatted_text = ""
+    counter = 0
+    while sequence:
+        counter += 1
+        formatted_text += sequence[0]
+        sequence = sequence[1:]
+        if counter % 100 == 0:
+            formatted_text += "\n\n"
+        elif counter % 50 == 0:
+            formatted_text += "\n"
+        elif counter % 10 == 0:
+            formatted_text += " "
+    return formatted_text
+
 title, aa_sequence = get_title(aa_sequence)
 molecular_weight = calculate_mw(aa_sequence)
+just_sequence = "".join([char for char in aa_sequence if char.upper() in "ACDEFGHIKLMNPQRSTVWY"])
 
 with st.expander("Input"):
     st.write(f"{title}")
@@ -110,7 +126,10 @@ with st.expander("Input"):
     st.write(f"{adjust_wt} Da will be added to the calculated molecular weight.")
     st.write(f"A sequence withing {delta_wt} Da of the target molecular weight will be accepted.")
 
+with st.expander("Formatted"):
+    st.code(format_text(just_sequence))
+    st.write(f"Full length molecular weight: {molecular_weight:.2f}")
+    st.write(f"Full length: {len(just_sequence)} residues")
 
-st.metric("Molecular Weight", value = "{:.2f}".format(molecular_weight))
 st.subheader("Potential fragments")
-st.table(filter_fragments(aa_sequence, st.session_state))
+st.table(filter_fragments(just_sequence, st.session_state))
