@@ -9,7 +9,8 @@ pages = {
         st.Page("bioinformatics/translate.py", title="DNA Translate"), 
         st.Page("bioinformatics/codon_usage.py", title="Calculate Codon Usage"), 
         st.Page("bioinformatics/mol_wt.py", title="Calculate Protein Molecular Weight"),
-        st.Page("bioinformatics/fragment_wts.py", title="Id fragments with molecular weight"),            
+        st.Page("bioinformatics/fragment_wts.py", title="Id fragments with molecular weight"),
+        st.Page("bioinformatics/gromacs_prep.py", title="GROMACS MD Preparation"),
     ],
 }
 pg = st.navigation(pages)
